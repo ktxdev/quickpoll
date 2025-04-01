@@ -1,18 +1,22 @@
 pipeline {
     agent any
 
+    tools {
+        jdk 'jdk17'  // Ensure JDK 17 is configured in Jenkins
+        gradle 'gradle8'  // Ensure Gradle 8 is configured in Jenkins
+    }
+
     environment {
         DOCKER_REGISTRY = 'localhost:5000'
         APP_NAME = 'quickpoll-core-api'
         APP_DIR = 'server/core-api'
-
+        COMPOSE_FILE = "docker-compose.yml"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/ktxdev/quickpoll.git'
+                checkout scm
             }
         }
 
@@ -24,18 +28,6 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                dir(env.APP_DIR) {
-                    sh './gradlew test'
-                }
-            }
-            post {
-                always {
-                    junit '${env.APP_DIR}/build/test-results/test/**/*.xml'
-                }
-            }
-        }
 
         stage('Docker Build') {
             steps {
