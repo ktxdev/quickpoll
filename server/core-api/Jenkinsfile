@@ -1,8 +1,0 @@
-pipeline {
-    agent any
-
-    environment {
-        DOCKER_REGISTRY = 'localhost:5000'
-        APP_NAME = 'quickpoll-core-api'
-    }
-}
