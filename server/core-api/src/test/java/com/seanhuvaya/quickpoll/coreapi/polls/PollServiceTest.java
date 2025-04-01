@@ -1,6 +1,6 @@
 package com.seanhuvaya.quickpoll.coreapi.polls;
 
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +19,6 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 class PollServiceTest {
     @Mock
@@ -97,7 +96,7 @@ class PollServiceTest {
         verify(pollRepository).findAll(pageable);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         closeable.close();
     }
