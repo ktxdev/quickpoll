@@ -7,15 +7,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PollDto {
+public class PollCreateDto {
     @NotEmpty(message = "Question should be provided")
     private String question;
     @NotNull(message = "Expiry time in minutes is required")

@@ -13,7 +13,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PollDtoValidationTest {
+class PollCreateDtoValidationTest {
 
     private Validator validator;
 
@@ -25,64 +25,64 @@ class PollDtoValidationTest {
 
     @Test
     void  testValidPollDto() {
-        PollDto pollDto = PollDto.builder()
+        PollCreateDto pollCreateDto = PollCreateDto.builder()
                 .question("What's your favorite programming language?")
                 .options(Set.of("Java", "Python"))
                 .expiresAt(LocalDateTime.now().plusMinutes(1))
                 .build();
 
-        Set<ConstraintViolation<PollDto>> constraintViolations = validator.validate(pollDto);
+        Set<ConstraintViolation<PollCreateDto>> constraintViolations = validator.validate(pollCreateDto);
         assertThat(constraintViolations).isEmpty();
     }
 
     @Test
     void  testPollDtoWithEmptyQuestion() {
-        PollDto pollDto = PollDto.builder()
+        PollCreateDto pollCreateDto = PollCreateDto.builder()
                 .question("")
                 .options(Set.of("Java", "Python"))
                 .expiresAt(LocalDateTime.now().plusMinutes(1))
                 .build();
 
-        Set<ConstraintViolation<PollDto>> constraintViolations = validator.validate(pollDto);
+        Set<ConstraintViolation<PollCreateDto>> constraintViolations = validator.validate(pollCreateDto);
         assertThat(constraintViolations).isNotEmpty();
         assertThat(constraintViolations).anyMatch(violation -> violation.getMessage().equals("Question should be provided"));
     }
 
     @Test
     void  testPollDtoWithNullExpiresAt() {
-        PollDto pollDto = PollDto.builder()
+        PollCreateDto pollCreateDto = PollCreateDto.builder()
                 .question("What's your favorite programming language?")
                 .options(Set.of("Java", "Python"))
                 .expiresAt(null)
                 .build();
 
-        Set<ConstraintViolation<PollDto>> constraintViolations = validator.validate(pollDto);
+        Set<ConstraintViolation<PollCreateDto>> constraintViolations = validator.validate(pollCreateDto);
         assertThat(constraintViolations).isNotEmpty();
         assertThat(constraintViolations).anyMatch(violation -> violation.getMessage().equals("Expiry time in minutes is required"));
     }
 
     @Test
     void  testPollDtoWithFewOptions() {
-        PollDto pollDto = PollDto.builder()
+        PollCreateDto pollCreateDto = PollCreateDto.builder()
                 .question("What's your favorite programming language?")
                 .options(Set.of("Java"))
                 .expiresAt(LocalDateTime.now().plusMinutes(1))
                 .build();
 
-        Set<ConstraintViolation<PollDto>> constraintViolations = validator.validate(pollDto);
+        Set<ConstraintViolation<PollCreateDto>> constraintViolations = validator.validate(pollCreateDto);
         assertThat(constraintViolations).isNotEmpty();
         assertThat(constraintViolations).anyMatch(violation -> violation.getMessage().equals("A poll must have between 2 and 4 options"));
     }
 
     @Test
     void  testPollDtoWithMoreOptions() {
-        PollDto pollDto = PollDto.builder()
+        PollCreateDto pollCreateDto = PollCreateDto.builder()
                 .question("What's your favorite programming language?")
                 .options(Set.of("Java", "Python", "Ruby", "C#", "C++"))
                 .expiresAt(LocalDateTime.now().plusMinutes(1))
                 .build();
 
-        Set<ConstraintViolation<PollDto>> constraintViolations = validator.validate(pollDto);
+        Set<ConstraintViolation<PollCreateDto>> constraintViolations = validator.validate(pollCreateDto);
         assertThat(constraintViolations).isNotEmpty();
         assertThat(constraintViolations).anyMatch(violation -> violation.getMessage().equals("A poll must have between 2 and 4 options"));
     }
