@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        jdk 'jdk17'  // Ensure JDK 17 is configured in Jenkins
-        gradle 'gradle8'  // Ensure Gradle 8 is configured in Jenkins
+        jdk 'Default'  // Ensure JDK 17 is configured in Jenkins
+        gradle 'Gradle 8.4'  // Ensure Gradle 8 is configured in Jenkins
     }
 
     environment {
