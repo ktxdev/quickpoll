@@ -10,7 +10,7 @@ pipeline {
         DOCKER_REGISTRY = 'localhost:5000'
         APP_NAME = 'quickpoll-core-api'
         APP_DIR = 'server/core-api'
-        COMPOSE_FILE = "docker-compose.yml"
+        DOCKER_IMAGE = "quickpoll:${env.BUILD_ID}"
     }
 
     stages {
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     dir(env.APP_DIR) {
-                        docker.build("${APP_NAME}:${env.BUILD_ID}")
+                         sh "docker build -t ${env.DOCKER_IMAGE} ."
                     }
                 }
             }
@@ -53,7 +53,7 @@ pipeline {
         always {
             cleanWs()
             script {
-                docker.systemPrune()  // Clean unused Docker objects
+                sh 'docker system prune -f || true'
             }
         }
     }
