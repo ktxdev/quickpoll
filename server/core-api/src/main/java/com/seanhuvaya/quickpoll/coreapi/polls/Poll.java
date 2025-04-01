@@ -25,6 +25,5 @@ public class Poll {
     private LocalDateTime createdAt;
 
     @ElementCollection
-    @Size(min = 2, max = 4, message = "A poll must have between 2 and 4 options")
     private Set<String> options;
 }
